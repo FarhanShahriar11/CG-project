@@ -1,0 +1,158 @@
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include<windows.h>
+#include <GL/glut.h>
+#endif
+#include <stdlib.h>
+//float cx=1;
+float ca=1;
+void reshape(int width, int height){
+  glViewport(0,0,width, height);
+
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+
+  gluPerspective(45.0, (double)width/(double)height, 1.0, 200.0);
+
+}
+void myDisplay(){
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  glTranslated(3,0,-20);
+    //glTranslated(5,-3,-25);
+ glScaled(1,2,1);
+  glRotated(-ca,0 ,1,0);
+  ///front
+  glPushMatrix();
+    glColor3f(1.0f,0.0f,0.0f);
+    glBegin(GL_POLYGON);
+     glVertex3f(-3,0,3);
+      glVertex3f(3,0,3);
+     glVertex3f(0,3,0);
+
+      glEnd();
+      glPopMatrix();
+      ///front
+  glPushMatrix();
+    glColor3f(1,1,0);
+    glBegin(GL_POLYGON);
+     glVertex3f(-3,0,-3);
+      glVertex3f(3,0,-3);
+     glVertex3f(0,3,0);
+
+      glEnd();
+      glPopMatrix();
+  ///left
+  glPushMatrix();
+    glColor3f(0,0,1);
+    glBegin(GL_POLYGON);
+     glVertex3f(3,0,-3);
+      glVertex3f(3,0,3);
+     glVertex3f(0,3,0);
+
+      glEnd();
+      glPopMatrix();
+///left
+  glPushMatrix();
+    glColor3f(0,0,1);
+    glBegin(GL_POLYGON);
+     glVertex3f(-3,0,-3);
+      glVertex3f(-3,0,3);
+     glVertex3f(0,3,0);
+
+      glEnd();
+      glPopMatrix();
+      ///***********************
+glPushMatrix();
+    glColor3f(1.0f,0.0f,0.0f);
+    glBegin(GL_POLYGON);
+     glVertex3f(-3,0,3);
+      glVertex3f(3,0,3);
+     glVertex3f(-0,-3,0);
+
+      glEnd();
+      glPopMatrix();
+      ///front
+  glPushMatrix();
+    glColor3f(1,1,0);
+    glBegin(GL_POLYGON);
+     glVertex3f(-3,0,-3);
+      glVertex3f(3,0,-3);
+     glVertex3f(-0,-3,0);
+
+      glEnd();
+      glPopMatrix();
+  ///left
+  glPushMatrix();
+    glColor3f(0,0,1);
+    glBegin(GL_POLYGON);
+     glVertex3f(3,0,-3);
+      glVertex3f(3,0,3);
+     glVertex3f(-0,-3,0);
+
+      glEnd();
+      glPopMatrix();
+///left
+  glPushMatrix();
+    glColor3f(0,0,1);
+    glBegin(GL_POLYGON);
+     glVertex3f(-3,0,-3);
+      glVertex3f(-3,0,3);
+     glVertex3f(-0,-3,0);
+
+      glEnd();
+      glPopMatrix();
+  glutSwapBuffers();
+
+}
+void wheelMoveForward()
+{
+   // cx = cx+0.001;
+    ca = ca+0.1;
+    glutPostRedisplay();
+}
+
+void wheelMoveBackward()
+{
+    ca = ca-0.1;
+   // cx = cx-0.001;
+    glutPostRedisplay();
+}
+void specialkey(int key, int x, int y)
+{
+    switch(key){
+    case GLUT_KEY_DOWN:
+        break;
+    case GLUT_KEY_UP:
+        break;
+    case GLUT_KEY_LEFT:
+        glutIdleFunc(wheelMoveBackward);
+        break;
+    case GLUT_KEY_RIGHT:
+        glutIdleFunc(wheelMoveForward);
+        break;
+    default:
+        break;
+    }
+}
+
+
+int main(int argc, char *argv[])
+{
+    glutInit(&argc, argv);
+    glutInitWindowSize(640,480);
+    //glutInitWindowPosition(10,10);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    glutCreateWindow("3D Object");
+    glEnable(GL_DEPTH_TEST);
+    glutReshapeFunc(reshape);
+    glutDisplayFunc(myDisplay);
+     glutSpecialFunc(specialkey);
+
+    glutMainLoop();
+
+    return EXIT_SUCCESS;
+}
